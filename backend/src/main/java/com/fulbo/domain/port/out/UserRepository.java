@@ -2,6 +2,7 @@ package com.fulbo.domain.port.out;
 
 import com.fulbo.domain.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -11,4 +12,5 @@ public interface UserRepository {
     Optional<User> findByUsername(String username);
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
+    List<User> findAll();
 }

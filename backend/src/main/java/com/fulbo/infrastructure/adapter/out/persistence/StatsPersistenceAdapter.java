@@ -13,23 +13,26 @@ import java.util.stream.Collectors;
 
 @Component
 public class StatsPersistenceAdapter implements ClubRepository, PlayerRepository,
-        MatchRepository, PlayerStatsRepository, PredictionRepository {
+        MatchRepository, PlayerStatsRepository, PredictionRepository, TournamentRepository {
 
     private final JpaClubRepository clubRepo;
     private final JpaPlayerRepository playerRepo;
     private final JpaMatchRepository matchRepo;
     private final JpaPlayerStatsRepository statsRepo;
     private final JpaPredictionRepository predictionRepo;
+    private final JpaTournamentRepository tournamentRepo;
     private final StatsPersistenceMapper mapper;
 
     public StatsPersistenceAdapter(JpaClubRepository clubRepo, JpaPlayerRepository playerRepo,
                                    JpaMatchRepository matchRepo, JpaPlayerStatsRepository statsRepo,
-                                   JpaPredictionRepository predictionRepo, StatsPersistenceMapper mapper) {
+                                   JpaPredictionRepository predictionRepo, JpaTournamentRepository tournamentRepo,
+                                   StatsPersistenceMapper mapper) {
         this.clubRepo = clubRepo;
         this.playerRepo = playerRepo;
         this.matchRepo = matchRepo;
         this.statsRepo = statsRepo;
         this.predictionRepo = predictionRepo;
+        this.tournamentRepo = tournamentRepo;
         this.mapper = mapper;
     }
 
@@ -53,8 +56,13 @@ public class StatsPersistenceAdapter implements ClubRepository, PlayerRepository
     }
 
     @Override
-    public List<Club> findAll() {
+    public List<Club> findAllClubs() {
         return clubRepo.findAll().stream().map(mapper::toClubDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteClubById(Long id) {
+        clubRepo.deleteById(id);
     }
 
     // Player
@@ -83,6 +91,16 @@ public class StatsPersistenceAdapter implements ClubRepository, PlayerRepository
         return playerRepo.findByClubId(clubId).stream().map(mapper::toPlayerDomain).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Player> findAllPlayers() {
+        return playerRepo.findAll().stream().map(mapper::toPlayerDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deletePlayerById(Long id) {
+        playerRepo.deleteById(id);
+    }
+
     // Match
     @Override
     public Match save(Match match) {
@@ -109,6 +127,28 @@ public class StatsPersistenceAdapter implements ClubRepository, PlayerRepository
     public List<Match> findByTournamentId(Long tournamentId) {
         return matchRepo.findByTournamentId(tournamentId).stream()
                 .map(mapper::toMatchDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Match> findAllMatches() {
+        return matchRepo.findAll().stream().map(mapper::toMatchDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteMatchById(Long id) {
+        matchRepo.deleteById(id);
+    }
+
+    @Override
+    public long count() {
+        return matchRepo.count();
+    }
+
+    @Override
+    public long countByStatus(String status) {
+        return matchRepo.findAll().stream()
+                .filter(m -> m.getStatus().name().equals(status))
+                .count();
     }
 
     // PlayerStats
@@ -144,6 +184,41 @@ public class StatsPersistenceAdapter implements ClubRepository, PlayerRepository
     @Override
     public List<PlayerStats> findByPlayerId(Long playerId) {
         return statsRepo.findByPlayerId(playerId).stream().map(mapper::toStatsDomain).collect(Collectors.toList());
+    }
+
+    public void deleteStatsById(Long id) {
+        statsRepo.deleteById(id);
+    }
+
+    // Tournament
+    @Override
+    public Tournament save(Tournament tournament) {
+        TournamentEntity entity = new TournamentEntity();
+        entity.setId(tournament.getId());
+        entity.setName(tournament.getName());
+        entity.setSeason(tournament.getSeason());
+        if (tournament.getType() != null) {
+            entity.setType(TournamentEntity.TournamentType.valueOf(tournament.getType().name()));
+        }
+        entity.setStartDate(tournament.getStartDate());
+        entity.setEndDate(tournament.getEndDate());
+        TournamentEntity saved = tournamentRepo.save(entity);
+        return mapper.toTournamentDomain(saved);
+    }
+
+    @Override
+    public Optional<Tournament> findTournamentById(Long id) {
+        return tournamentRepo.findById(id).map(mapper::toTournamentDomain);
+    }
+
+    @Override
+    public List<Tournament> findAllTournaments() {
+        return tournamentRepo.findAll().stream().map(mapper::toTournamentDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteTournamentById(Long id) {
+        tournamentRepo.deleteById(id);
     }
 
     // Prediction

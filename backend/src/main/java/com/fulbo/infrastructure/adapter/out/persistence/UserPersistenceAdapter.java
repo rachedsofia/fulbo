@@ -6,7 +6,9 @@ import com.fulbo.infrastructure.adapter.out.persistence.mapper.UserPersistenceMa
 import com.fulbo.infrastructure.adapter.out.persistence.repository.JpaUserRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class UserPersistenceAdapter implements UserRepository {
@@ -47,5 +49,10 @@ public class UserPersistenceAdapter implements UserRepository {
     @Override
     public boolean existsByUsername(String username) {
         return jpaRepo.existsByUsername(username);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return jpaRepo.findAll().stream().map(mapper::toDomain).collect(Collectors.toList());
     }
 }

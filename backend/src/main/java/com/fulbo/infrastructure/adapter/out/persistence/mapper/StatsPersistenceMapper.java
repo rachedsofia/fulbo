@@ -36,6 +36,13 @@ public class StatsPersistenceMapper {
                 entity.getPasses(), entity.getShotsOnTarget(), entity.getTackles(), entity.getRating());
     }
 
+    public Tournament toTournamentDomain(TournamentEntity entity) {
+        if (entity == null) return null;
+        return new Tournament(entity.getId(), entity.getName(), entity.getSeason(),
+                entity.getType() != null ? Tournament.TournamentType.valueOf(entity.getType().name()) : null,
+                entity.getStartDate(), entity.getEndDate());
+    }
+
     public Prediction toPredictionDomain(PredictionEntity entity) {
         if (entity == null) return null;
         return new Prediction(entity.getId(), entity.getUserId(), entity.getMatchId(),
