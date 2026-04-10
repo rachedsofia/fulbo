@@ -200,14 +200,14 @@ INSERT INTO player_stats (player_id, match_id, goals, assists, yellow_cards, red
 
 -- Usuario admin predeterminado (password: admin123)
 INSERT INTO users (id, username, email, password, display_name, role, reputation, followers_count, following_count, active, created_at, updated_at) VALUES
-(1, 'admin', 'admin@fulbo.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Administrador Fulbo', 'ADMIN', 100, 0, 0, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+(1, 'admin', 'admin@fulbo.com', '$2a$10$ctPwIKFbcQoEd8V0nZQS0ODDGy2vV8dkdz6NDu1QTID.R2tKiyp.6', 'Administrador Fulbo', 'ADMIN', 100, 0, 0, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Posts de ejemplo
-INSERT INTO posts (id, user_id, content, type, club_id, tournament_id, likes_count, comments_count, shares_count, created_at, updated_at) VALUES
-(1, 1, 'Arrancó la Liga Profesional 2026! River le ganó el Superclásico a Boca 2-1 con doblete de Borja. Tremendo partido en el Monumental.', 'TEXT', 1, 1, 156, 32, 18, '2026-02-08 23:30:00', '2026-02-08 23:30:00'),
-(2, 1, 'San Lorenzo goleó 3-0 a Huracán en el clásico del barrio. Bareiro imparable con un doblete. Martegani puso el tercero con un golazo de tiro libre.', 'TEXT', 5, 1, 89, 15, 7, '2026-02-08 19:30:00', '2026-02-08 19:30:00'),
-(3, 1, 'Talleres aplastó a Belgrano 3-1 en el clásico cordobés. Garro fue la figura con 2 goles y 1 asistencia. Rating 9.5!', 'TEXT', 15, 1, 120, 28, 12, '2026-02-10 23:00:00', '2026-02-10 23:00:00'),
-(4, 1, 'FECHA 2: Racing sorprende en la Bombonera! Le ganó 2-0 a Boca con goles de Quintero y Roger Martínez. La Academia es líder con puntaje ideal.', 'TEXT', 3, 1, 203, 45, 25, '2026-02-15 23:00:00', '2026-02-15 23:00:00'),
-(5, 1, 'River no para! Goleó 3-1 a Independiente de visitante. Borja ya lleva 4 goles en 2 fechas. Es el goleador del torneo.', 'TEXT', 1, 1, 178, 38, 20, '2026-02-15 21:30:00', '2026-02-15 21:30:00'),
-(6, 1, 'COPA ARGENTINA: River avanza con goleada 4-1 sobre Talleres. Borja intratable: 2 goles y 1 asistencia. De La Cruz magia pura con 1 gol y 2 asistencias.', 'TEXT', 1, 2, 245, 52, 30, '2026-03-20 23:30:00', '2026-03-20 23:30:00'),
-(7, 1, 'EN VIVO: River vs Racing por la Fecha 3. River gana 1-0 por ahora. Partidazo en el Monumental!', 'TEXT', 1, 1, 67, 89, 5, '2026-04-10 21:30:00', '2026-04-10 21:30:00');
+INSERT INTO posts (id, user_id, content, type, club_id, tournament_id, likes_count, comments_count, shares_count, active, created_at, updated_at) VALUES
+(1, 1, 'Arrancó la Liga Profesional 2026! River le ganó el Superclásico a Boca 2-1 con doblete de Borja. Tremendo partido en el Monumental.', 'TEXT', 1, 1, 156, 32, 18, true, '2026-02-08 23:30:00', '2026-02-08 23:30:00'),
+(2, 1, 'San Lorenzo goleó 3-0 a Huracán en el clásico del barrio. Bareiro imparable con un doblete. Martegani puso el tercero con un golazo de tiro libre.', 'TEXT', 5, 1, 89, 15, 7, true, '2026-02-08 19:30:00', '2026-02-08 19:30:00'),
+(3, 1, 'Talleres aplastó a Belgrano 3-1 en el clásico cordobés. Garro fue la figura con 2 goles y 1 asistencia. Rating 9.5!', 'TEXT', 15, 1, 120, 28, 12, true, '2026-02-10 23:00:00', '2026-02-10 23:00:00'),
+(4, 1, 'FECHA 2: Racing sorprende en la Bombonera! Le ganó 2-0 a Boca con goles de Quintero y Roger Martínez. La Academia es líder con puntaje ideal.', 'TEXT', 3, 1, 203, 45, 25, true, '2026-02-15 23:00:00', '2026-02-15 23:00:00'),
+(5, 1, 'River no para! Goleó 3-1 a Independiente de visitante. Borja ya lleva 4 goles en 2 fechas. Es el goleador del torneo.', 'TEXT', 1, 1, 178, 38, 20, true, '2026-02-15 21:30:00', '2026-02-15 21:30:00'),
+(6, 1, 'COPA ARGENTINA: River avanza con goleada 4-1 sobre Talleres. Borja intratable: 2 goles y 1 asistencia. De La Cruz magia pura con 1 gol y 2 asistencias.', 'TEXT', 1, 2, 245, 52, 30, true, '2026-03-20 23:30:00', '2026-03-20 23:30:00'),
+(7, 1, 'EN VIVO: River vs Racing por la Fecha 3. River gana 1-0 por ahora. Partidazo en el Monumental!', 'TEXT', 1, 1, 67, 89, 5, true, '2026-04-10 21:30:00', '2026-04-10 21:30:00');
