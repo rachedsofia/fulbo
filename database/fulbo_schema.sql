@@ -425,25 +425,38 @@ ORDER BY total_goals DESC;
 -- Vista: Tabla de posiciones (simplificada)
 CREATE OR REPLACE VIEW v_standings AS
 SELECT
-    c.id AS club_id,
-    c.name AS club_name,
-    c.short_name,
-    COUNT(CASE WHEN (m.home_club_id = c.id AND m.home_score > m.away_score) OR
-                    (m.away_club_id = c.id AND m.away_score > m.home_score) THEN 1 END) AS wins,
-    COUNT(CASE WHEN m.home_score = m.away_score THEN 1 END) AS draws,
-    COUNT(CASE WHEN (m.home_club_id = c.id AND m.home_score < m.away_score) OR
-                    (m.away_club_id = c.id AND m.away_score < m.home_score) THEN 1 END) AS losses,
-    COALESCE(SUM(CASE WHEN m.home_club_id = c.id THEN m.home_score
-                      WHEN m.away_club_id = c.id THEN m.away_score END), 0) AS goals_for,
-    COALESCE(SUM(CASE WHEN m.home_club_id = c.id THEN m.away_score
-                      WHEN m.away_club_id = c.id THEN m.home_score END), 0) AS goals_against,
-    COUNT(CASE WHEN (m.home_club_id = c.id AND m.home_score > m.away_score) OR
-                    (m.away_club_id = c.id AND m.away_score > m.home_score) THEN 1 END) * 3 +
-    COUNT(CASE WHEN m.home_score = m.away_score THEN 1 END) AS points
-FROM clubs c
-LEFT JOIN matches m ON (m.home_club_id = c.id OR m.away_club_id = c.id) AND m.status = 'FINISHED'
-GROUP BY c.id, c.name, c.short_name
-ORDER BY points DESC, goals_for - goals_against DESC;
+    sub.club_id,
+    sub.club_name,
+    sub.short_name,
+    sub.wins,
+    sub.draws,
+    sub.losses,
+    sub.goals_for,
+    sub.goals_against,
+    sub.goals_for - sub.goals_against AS goal_difference,
+    sub.points
+FROM (
+    SELECT
+        c.id AS club_id,
+        c.name AS club_name,
+        c.short_name,
+        COUNT(CASE WHEN (m.home_club_id = c.id AND m.home_score > m.away_score) OR
+                        (m.away_club_id = c.id AND m.away_score > m.home_score) THEN 1 END) AS wins,
+        COUNT(CASE WHEN m.home_score = m.away_score THEN 1 END) AS draws,
+        COUNT(CASE WHEN (m.home_club_id = c.id AND m.home_score < m.away_score) OR
+                        (m.away_club_id = c.id AND m.away_score < m.home_score) THEN 1 END) AS losses,
+        COALESCE(SUM(CASE WHEN m.home_club_id = c.id THEN m.home_score
+                          WHEN m.away_club_id = c.id THEN m.away_score END), 0) AS goals_for,
+        COALESCE(SUM(CASE WHEN m.home_club_id = c.id THEN m.away_score
+                          WHEN m.away_club_id = c.id THEN m.home_score END), 0) AS goals_against,
+        COUNT(CASE WHEN (m.home_club_id = c.id AND m.home_score > m.away_score) OR
+                        (m.away_club_id = c.id AND m.away_score > m.home_score) THEN 1 END) * 3 +
+        COUNT(CASE WHEN m.home_score = m.away_score THEN 1 END) AS points
+    FROM clubs c
+    LEFT JOIN matches m ON (m.home_club_id = c.id OR m.away_club_id = c.id) AND m.status = 'FINISHED'
+    GROUP BY c.id, c.name, c.short_name
+) AS sub
+ORDER BY sub.points DESC, sub.goals_for - sub.goals_against DESC;
 
 -- Vista: Ranking de predicciones
 CREATE OR REPLACE VIEW v_prediction_ranking AS
