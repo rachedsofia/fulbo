@@ -15,6 +15,7 @@ import { AuthService } from '../../core/services/auth.service';
         <a routerLink="/feed" routerLinkActive="active">Feed</a>
         <a routerLink="/fantasy" routerLinkActive="active">Fantasy</a>
         <a routerLink="/stats" routerLinkActive="active">Estadísticas</a>
+        <a routerLink="/admin" routerLinkActive="active" class="admin-link">Admin</a>
       </div>
       <div class="navbar-auth">
         @if (authService.isAuthenticated()) {
@@ -83,6 +84,13 @@ import { AuthService } from '../../core/services/auth.service';
       background: transparent;
       border: 1px solid #00d4ff;
       color: #00d4ff;
+    }
+    .admin-link {
+      color: #ff9800 !important;
+      font-weight: 600;
+    }
+    .admin-link.active {
+      color: #ffb74d !important;
     }
   `]
 })

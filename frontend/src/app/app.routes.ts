@@ -52,5 +52,40 @@ export const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'admin',
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./admin/admin-dashboard.component').then(m => m.AdminDashboardComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'matches',
+        loadComponent: () => import('./admin/admin-matches.component').then(m => m.AdminMatchesComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'players',
+        loadComponent: () => import('./admin/admin-players.component').then(m => m.AdminPlayersComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'tournaments',
+        loadComponent: () => import('./admin/admin-tournaments.component').then(m => m.AdminTournamentsComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'users',
+        loadComponent: () => import('./admin/admin-users.component').then(m => m.AdminUsersComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'sync',
+        loadComponent: () => import('./admin/admin-sync.component').then(m => m.AdminSyncComponent),
+        canActivate: [authGuard]
+      }
+    ]
+  },
   { path: '**', redirectTo: '/feed' }
 ];

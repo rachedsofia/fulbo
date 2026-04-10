@@ -29,7 +29,7 @@ public class StatsService implements StatsUseCase {
 
     @Override
     public List<Club> getAllClubs() {
-        return clubRepository.findAll();
+        return clubRepository.findAllClubs();
     }
 
     @Override

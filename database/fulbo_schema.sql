@@ -493,5 +493,98 @@ GROUP BY ft.id, ft.name, u.username, u.display_name, fl.name, ft.total_points, f
 ORDER BY ft.total_points DESC;
 
 -- ============================================================
+-- DATOS DE PRUEBA (SEED DATA)
+-- ============================================================
+
+-- Usuario Admin
+INSERT INTO users (username, email, password, display_name, role, reputation, followers_count, following_count, active, created_at, updated_at)
+VALUES ('admin', 'admin@fulbo.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.IjfdkQg2SjwC6.mYL2s7T9z5J0xqWS', 'Administrador', 'ADMIN', 100, 0, 0, true, NOW(), NOW());
+
+-- Torneos
+INSERT INTO tournaments (name, season, type, start_date, end_date) VALUES
+('Liga Profesional 2026', '2026', 'LEAGUE', '2026-02-01', '2026-12-15'),
+('Copa Argentina 2026', '2026', 'CUP', '2026-03-01', '2026-11-30'),
+('Copa Libertadores 2026', '2026', 'INTERNATIONAL', '2026-02-15', '2026-11-25');
+
+-- Clubes Argentinos
+INSERT INTO clubs (name, short_name, logo_url, stadium_name, city, founded_year) VALUES
+('Boca Juniors', 'BOC', '', 'La Bombonera', 'Buenos Aires', 1905),
+('River Plate', 'RIV', '', 'Monumental', 'Buenos Aires', 1901),
+('Racing Club', 'RAC', '', 'Cilindro de Avellaneda', 'Avellaneda', 1903),
+('Independiente', 'IND', '', 'Libertadores de América', 'Avellaneda', 1905),
+('San Lorenzo', 'SLO', '', 'Pedro Bidegain', 'Buenos Aires', 1908),
+('Huracán', 'HUR', '', 'Tomás Adolfo Ducó', 'Buenos Aires', 1908),
+('Vélez Sarsfield', 'VEL', '', 'José Amalfitani', 'Buenos Aires', 1910),
+('Argentinos Juniors', 'ARJ', '', 'Diego Armando Maradona', 'Buenos Aires', 1904),
+('Estudiantes', 'EST', '', 'Jorge Luis Hirschi', 'La Plata', 1905),
+('Gimnasia LP', 'GLP', '', 'Juan Carmelo Zerillo', 'La Plata', 1887),
+('Lanús', 'LAN', '', 'Ciudad de Lanús', 'Lanús', 1915),
+('Banfield', 'BAN', '', 'Florencio Sola', 'Banfield', 1896),
+('Rosario Central', 'ROS', '', 'Gigante de Arroyito', 'Rosario', 1889),
+('Newells Old Boys', 'NOB', '', 'Marcelo Bielsa', 'Rosario', 1903),
+('Talleres', 'TAL', '', 'Mario Alberto Kempes', 'Córdoba', 1913),
+('Belgrano', 'BEL', '', 'Julio César Villagra', 'Córdoba', 1905),
+('Colón', 'COL', '', 'Brigadier López', 'Santa Fe', 1905),
+('Unión', 'UNI', '', '15 de Abril', 'Santa Fe', 1907),
+('Defensa y Justicia', 'DYJ', '', 'Norberto Tomaghello', 'Florencio Varela', 1935),
+('Arsenal', 'ARS', '', 'Julio Humberto Grondona', 'Sarandí', 1957),
+('Platense', 'PLA', '', 'Ciudad de Vicente López', 'Vicente López', 1905),
+('Tigre', 'TIG', '', 'José Dellagiovanna', 'Victoria', 1902),
+('Barracas Central', 'BAR', '', 'Claudio Chiqui Tapia', 'Buenos Aires', 1904),
+('Instituto', 'INS', '', 'Juan Domingo Perón', 'Córdoba', 1918),
+('Central Córdoba', 'CCO', '', 'Alfredo Terrera', 'Santiago del Estero', 1919),
+('Sarmiento', 'SAR', '', 'Eva Perón', 'Junín', 1911),
+('Godoy Cruz', 'GOD', '', 'Malvinas Argentinas', 'Mendoza', 1921),
+('Atlético Tucumán', 'ATU', '', 'Monumental', 'Tucumán', 1902);
+
+-- Jugadores (selección de 5 por club para los primeros 6 clubes)
+INSERT INTO players (club_id, first_name, last_name, position, nationality, shirt_number, photo_url, market_value) VALUES
+(1, 'Sergio', 'Romero', 'Portero', 'Argentina', 1, '', 2.0),
+(1, 'Marcos', 'Rojo', 'Defensor', 'Argentina', 6, '', 3.5),
+(1, 'Kevin', 'Zenón', 'Mediocampista', 'Argentina', 10, '', 12.0),
+(1, 'Edinson', 'Cavani', 'Delantero', 'Uruguay', 9, '', 5.0),
+(1, 'Miguel', 'Merentiel', 'Delantero', 'Uruguay', 7, '', 6.0),
+(2, 'Franco', 'Armani', 'Portero', 'Argentina', 1, '', 3.0),
+(2, 'Paulo', 'Díaz', 'Defensor', 'Chile', 4, '', 8.0),
+(2, 'Nacho', 'Fernández', 'Mediocampista', 'Argentina', 26, '', 7.0),
+(2, 'Miguel', 'Borja', 'Delantero', 'Colombia', 9, '', 6.5),
+(2, 'Pablo', 'Solari', 'Delantero', 'Argentina', 22, '', 10.0),
+(3, 'Gastón', 'Gómez', 'Portero', 'Argentina', 1, '', 2.5),
+(3, 'Marco', 'Di Cesare', 'Defensor', 'Argentina', 2, '', 3.0),
+(3, 'Juan Fernando', 'Quintero', 'Mediocampista', 'Colombia', 10, '', 8.0),
+(3, 'Roger', 'Martínez', 'Delantero', 'Colombia', 9, '', 5.5),
+(3, 'Adrián', 'Martínez', 'Delantero', 'Uruguay', 17, '', 4.0),
+(4, 'Rodrigo', 'Rey', 'Portero', 'Argentina', 1, '', 2.0),
+(4, 'Sergio', 'Barreto', 'Defensor', 'Argentina', 3, '', 3.5),
+(4, 'Lucas', 'González', 'Mediocampista', 'Argentina', 8, '', 4.0),
+(4, 'Leandro', 'Fernández', 'Delantero', 'Argentina', 9, '', 7.0),
+(4, 'Tomás', 'Pozzo', 'Delantero', 'Argentina', 11, '', 3.5),
+(5, 'Augusto', 'Batalla', 'Portero', 'Argentina', 1, '', 2.5),
+(5, 'Federico', 'Gattoni', 'Defensor', 'Argentina', 3, '', 5.0),
+(5, 'Agustín', 'Martegani', 'Mediocampista', 'Argentina', 10, '', 6.0),
+(5, 'Adam', 'Bareiro', 'Delantero', 'Paraguay', 9, '', 5.0),
+(5, 'Nicolás', 'Fernández', 'Delantero', 'Argentina', 7, '', 4.0),
+(6, 'Marcos', 'Díaz', 'Portero', 'Argentina', 1, '', 1.5),
+(6, 'Emiliano', 'Insúa', 'Defensor', 'Argentina', 3, '', 2.0),
+(6, 'Franco', 'Cristaldo', 'Mediocampista', 'Argentina', 10, '', 3.5),
+(6, 'Walter', 'Bou', 'Delantero', 'Argentina', 9, '', 3.0),
+(6, 'Rodrigo', 'Cabral', 'Delantero', 'Argentina', 7, '', 2.5);
+
+-- Partidos
+INSERT INTO matches (home_club_id, away_club_id, tournament_id, match_date, home_score, away_score, status, stadium, matchday) VALUES
+(1, 2, 1, '2026-04-10 21:00:00', 1, 1, 'LIVE', 'La Bombonera', 8),
+(3, 4, 1, '2026-04-10 19:00:00', 2, 0, 'LIVE', 'Cilindro de Avellaneda', 8),
+(5, 6, 1, '2026-04-10 17:00:00', 0, 0, 'HALFTIME', 'Pedro Bidegain', 8),
+(7, 8, 1, '2026-04-09 21:00:00', 3, 1, 'FINISHED', 'José Amalfitani', 7),
+(9, 10, 1, '2026-04-09 19:00:00', 0, 1, 'FINISHED', 'Jorge Luis Hirschi', 7),
+(11, 12, 1, '2026-04-09 17:00:00', 2, 2, 'FINISHED', 'Ciudad de Lanús', 7),
+(13, 14, 1, '2026-04-08 21:00:00', 1, 0, 'FINISHED', 'Gigante de Arroyito', 7),
+(15, 16, 1, '2026-04-08 19:00:00', 2, 1, 'FINISHED', 'Mario Alberto Kempes', 7),
+(1, 3, 2, '2026-04-15 21:00:00', NULL, NULL, 'SCHEDULED', 'La Bombonera', 1),
+(2, 4, 2, '2026-04-16 21:00:00', NULL, NULL, 'SCHEDULED', 'Monumental', 1),
+(1, 15, 3, '2026-04-20 21:30:00', NULL, NULL, 'SCHEDULED', 'La Bombonera', 3),
+(2, 13, 3, '2026-04-21 19:00:00', NULL, NULL, 'SCHEDULED', 'Monumental', 3);
+
+-- ============================================================
 -- FIN DEL SCRIPT
 -- ============================================================
