@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: fulbo-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-fulbo_root_2024}
+      MYSQL_DATABASE: fulbo
+      MYSQL_USER: fulbo_user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-fulbo_pass_2024}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fulbo-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: fulbo-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - fulbo-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: fulbo-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: fulbo
+      RABBITMQ_DEFAULT_PASS: fulbo_mq_2024
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - fulbo-network
+
+  backend:
+    build: ./backend
+    container_name: fulbo-backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/fulbo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Argentina/Buenos_Aires
+      SPRING_DATASOURCE_USERNAME: fulbo_user
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-fulbo_pass_2024}
+      JWT_SECRET: ${JWT_SECRET:-fulbo-jwt-secret-key-must-be-at-least-256-bits-long-for-hs256}
+      SPRING_REDIS_HOST: redis
+      SPRING_RABBITMQ_HOST: rabbitmq
+    ports:
+      - "8080:8080"
+    networks:
+      - fulbo-network
+
+  frontend:
+    build: ./frontend
+    container_name: fulbo-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - fulbo-network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  fulbo-network:
+    driver: bridge
