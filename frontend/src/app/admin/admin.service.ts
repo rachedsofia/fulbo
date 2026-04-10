@@ -67,6 +67,22 @@ export interface User {
   createdAt: string;
 }
 
+export interface UserStats {
+  id: number;
+  username: string;
+  email: string;
+  displayName: string;
+  avatarUrl: string;
+  bio: string;
+  role: string;
+  reputation: number;
+  followersCount: number;
+  followingCount: number;
+  active: boolean;
+  postsCount: number;
+  createdAt: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AdminService {
   private http = inject(HttpClient);
@@ -148,6 +164,10 @@ export class AdminService {
   // Users
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/users`);
+  }
+
+  getUserStats(): Observable<UserStats[]> {
+    return this.http.get<UserStats[]>(`${this.baseUrl}/users/stats`);
   }
 
   updateUserRole(id: number, role: string): Observable<User> {

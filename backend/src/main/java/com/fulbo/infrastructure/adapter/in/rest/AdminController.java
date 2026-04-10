@@ -135,6 +135,11 @@ public class AdminController {
         return ResponseEntity.ok(adminUseCase.getAllUsers());
     }
 
+    @GetMapping("/users/stats")
+    public ResponseEntity<List<AdminUseCase.UserStats>> getUserStatistics() {
+        return ResponseEntity.ok(adminUseCase.getUserStatistics());
+    }
+
     @PutMapping("/users/{id}/role")
     public ResponseEntity<User> updateUserRole(@PathVariable Long id, @RequestBody Map<String, String> body) {
         User.UserRole role = User.UserRole.valueOf(body.get("role"));
