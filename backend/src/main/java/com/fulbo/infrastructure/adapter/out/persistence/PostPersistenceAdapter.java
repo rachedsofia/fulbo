@@ -50,4 +50,9 @@ public class PostPersistenceAdapter implements PostRepository {
     public void deleteById(Long id) {
         jpaRepo.deleteById(id);
     }
+
+    @Override
+    public long countByUserId(Long userId) {
+        return jpaRepo.countByUserIdAndActiveTrue(userId);
+    }
 }

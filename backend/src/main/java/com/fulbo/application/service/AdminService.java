@@ -163,6 +163,27 @@ public class AdminService implements AdminUseCase {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<UserStats> getUserStatistics() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(user -> new UserStats(
+            user.getId(),
+            user.getUsername(),
+            user.getEmail(),
+            user.getDisplayName(),
+            user.getAvatarUrl(),
+            user.getBio(),
+            user.getRole() != null ? user.getRole().name() : "USER",
+            user.getReputation(),
+            user.getFollowersCount(),
+            user.getFollowingCount(),
+            user.getActive(),
+            postRepository.countByUserId(user.getId()),
+            user.getCreatedAt() != null ? user.getCreatedAt().toString() : ""
+        )).collect(java.util.stream.Collectors.toList());
+    }
+
+    @Override
     public User updateUserRole(Long userId, User.UserRole role) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + userId));

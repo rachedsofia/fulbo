@@ -11,4 +11,5 @@ public interface JpaPostRepository extends JpaRepository<PostEntity, Long> {
     Page<PostEntity> findByActiveTrueOrderByCreatedAtDesc(Pageable pageable);
     Page<PostEntity> findByUserIdAndActiveTrueOrderByCreatedAtDesc(Long userId, Pageable pageable);
     Page<PostEntity> findByClubIdAndActiveTrueOrderByCreatedAtDesc(Long clubId, Pageable pageable);
+    long countByUserIdAndActiveTrue(Long userId);
 }

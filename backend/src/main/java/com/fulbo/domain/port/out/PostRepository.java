@@ -13,4 +13,5 @@ public interface PostRepository {
     Page<Post> findByUserId(Long userId, Pageable pageable);
     Page<Post> findByClubId(Long clubId, Pageable pageable);
     void deleteById(Long id);
+    long countByUserId(Long userId);
 }

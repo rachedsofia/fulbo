@@ -39,6 +39,7 @@ public interface AdminUseCase {
     List<User> getAllUsers();
     User updateUserRole(Long userId, User.UserRole role);
     void deactivateUser(Long userId);
+    List<UserStats> getUserStatistics();
 
     // Dashboard stats
     AdminDashboard getDashboardStats();
@@ -51,5 +52,21 @@ public interface AdminUseCase {
         long totalTournaments,
         long totalPosts,
         long liveMatches
+    ) {}
+
+    record UserStats(
+        Long id,
+        String username,
+        String email,
+        String displayName,
+        String avatarUrl,
+        String bio,
+        String role,
+        Integer reputation,
+        Integer followersCount,
+        Integer followingCount,
+        Boolean active,
+        long postsCount,
+        String createdAt
     ) {}
 }
